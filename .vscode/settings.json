@@ -1,0 +1,23 @@
+{
+  "C_Cpp.errorSquiggles": "Disabled",
+  "files.associations": {
+    "stdio.h": "c",
+    "resolver.h": "c",
+    "errno.h": "c",
+    "compression.h": "c",
+    "stdlib.h": "c",
+    "rand.h": "c",
+    "string.h": "c",
+    "dns_header.h": "c",
+    "inet.h": "c",
+    "settings.h": "c",
+    "dns_rr.h": "c",
+    "info.h": "c",
+    "typeinfo": "c",
+    "dns_packet.h": "c",
+    "stdint.h": "c",
+    "parameters.h": "c",
+    "alloc.h": "c",
+    "dlayer.h": "c"
+  }
+}
