@@ -1,30 +1,48 @@
+# NOTES
 
-Ressouces et liens
----------------------------------
-* [Sujet du projet](https://datafront.maqao.exascale-computing.eu/public_html/CHPS/projets.html#extension-de-la-r%C3%A9solution-de-noms-pour-le-hpc)
-* [Suivi du projet - Hedgedoc du prof](https://france.paratools.com/hedgedoc/s/Z8mPoPvTL)
-* [Github du projet](https://github.com/sirdelta/ppn-dns)
-* [Organisation et documentation](https://drive.google.com/drive/folders/1eYObzYu2bYIsx-OR9TyHlNd9kDHZ15J7?usp=sharing)  
+## Makefile
 
-Programme
----------------------------------
+ CC : compilateur utilisée
+ CFLAGS : options de compilation
+ $@ : nom de la cible
+ $< : nom de la premiere dependance
+ $ˆ : liste des dependances
+ $? : liste des dependances plus recentes que la cible
+ $* : nom d un fichier sans son suffixe
 
-Pour le moment, l'arorescence du projet est la suivante :
+## DNS protocol
 
- * build : fichiers binaires/exécutables
- * build/lib : c'est dans ce répertoire que seront stockées les bibliothèques générées
+The DNS message structure contains header information (an unique id,
+flags and number of answer, authority and additionnal resource records),
+a query type, a domain name, and a list of resource record.
 
- * dep : bibliothèques extérieurs, plugins et dépendances utilisés dans notre programme
+A resource record is a struture which store all information send by a
+server to resolve a domain name: an owner domain name, a query type,
+a Time To Live, the length of the response and the response.
+According to the situation, the list in the message can store answer,
+authority and/or additional resource records.
 
- * src : fichiers sources et entêtes associées à notre programme
- * inc :  c'est dans ce répertoire que seront rangées les entêtes UNIQUEMENT destinées à appeler les bibliothèques générées
+The DNS message structure respect as much as possible the RFC 1035, but
+differs in some aspects. Each message contains only one question
+(the domain name to be resolved and its type), then it is not necessary
+to store the number of question. The query class is also never stored
+because it is always assumed to be Internet class.
 
- * exe : fichiers sources des exécutables qui utiliseront les bibliothèques générées
- * tests : fichiers sources des tests de validation de nos fonctions
+## Send/Recv message
+
+/* At the end of a packet, indicate that the next packet must start
+   a new DNS message. */
+#define CHAR_START_NEW_DNS_MESSAGE  ';'
+
+/* At the end of a packet, indicate that there is no more packet to be send. */
+#define CHAR_NO_MORE_PACKET         '!'
+
+  const bool one_more_msg
+{
+  /* Finally, we indicate if it is or not the end of the transmission. */
+  msg[la - 1] = (one_more_msg) ? CHAR_NO_MORE_PACKET : CHAR_START_NEW_DNS_MESSAGE;
+}
 
 
-Le fichier __.gitignore__ contient les éléments qui ne seront pas _pusher_ sur le git du projet.
 
-Le fichier __run.sh__ sera utilisé pour faciliter la compilation automatique et l'exécution des différents programmes.
 
-Les fichiers __Makefile__ et __README.md__ seront complétés au fur et à mesure.
